@@ -1,0 +1,147 @@
+<head>
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    <style>
+        body {
+            margin: 0;
+        }
+    </style>
+    <script src="https://unpkg.com/element-resize-detector/dist/element-resize-detector.min.js"></script>
+    <script src="https://unpkg.com/three@0.143.0/build/three.js"></script>
+    <script src="https://unpkg.com/3d-force-graph@1.70.10/dist/3d-force-graph.min.js"></script>
+    <script src="https://unpkg.com/three@0.143.0/examples/js/renderers/CSS2DRenderer.js"></script>
+    <script src="https://unpkg.com/d3-octree"></script>
+    <script src="https://unpkg.com/d3-force-3d"></script>
+    <script src="https://cdn.socket.io/4.5.0/socket.io.min.js"></script>
+
+</head>
+<body>
+    <div id="3d-graph"></div>
+    <script>
+        const highlightLinks = new Set();
+        let hoverNode = null;
+        const distance = 1400;
+
+         const Graph = ForceGraph3D({
+                extraRenderers: [new THREE.CSS2DRenderer()]
+            })
+            (document.getElementById('3d-graph'))
+                .graphData(gData)
+                .linkWidth(1)
+                .linkAutoColorBy('source')
+                .linkOpacity(0.6)
+                .nodeAutoColorBy('id')
+                .d3AlphaMin(0.00001)
+                .nodeThreeObject(node => {
+                const nodeEl = document.createElement('div');
+                nodeEl.textContent = node.id;
+                nodeEl.style.color = node.color;
+                nodeEl.className = 'node-label';
+                return new THREE.CSS2DObject(nodeEl);
+            })
+            .nodeThreeObjectExtend(true)
+            .d3Force('collide', d3.forceCollide(100));
+
+            const geometry = new THREE.BoxGeometry(40, 40, 40, 1);
+            const material = new THREE.MeshBasicMaterial({ color: 0xFFFFFF });
+            const meshf0 = new THREE.Mesh(geometry, material);
+            const meshf1 = new THREE.Mesh(geometry, material);
+            const meshf2 = new THREE.Mesh(geometry, material);
+            const meshf3 = new THREE.Mesh(geometry, material);
+            const meshf4 = new THREE.Mesh(geometry, material);
+            const meshf5 = new THREE.Mesh(geometry, material);
+            const meshf6 = new THREE.Mesh(geometry, material);
+            const meshf7 = new THREE.Mesh(geometry, material);
+            const meshf8 = new THREE.Mesh(geometry, material);
+            const meshf9 = new THREE.Mesh(geometry, material);
+            const meshf10 = new THREE.Mesh(geometry, material);
+            const meshf11 = new THREE.Mesh(geometry, material);
+            const meshf12 = new THREE.Mesh(geometry, material);
+            const meshf13 = new THREE.Mesh(geometry, material);
+            const meshf14 = new THREE.Mesh(geometry, material);
+            const meshf15 = new THREE.Mesh(geometry, material);
+            const meshf16 = new THREE.Mesh(geometry, material);
+            const meshf17 = new THREE.Mesh(geometry, material);
+            const meshf18 = new THREE.Mesh(geometry, material);
+            const meshf19 = new THREE.Mesh(geometry, material);
+            const meshf20 = new THREE.Mesh(geometry, material);
+            Graph.scene().add(meshf0);
+            Graph.scene().add(meshf1);
+            Graph.scene().add(meshf2);
+            Graph.scene().add(meshf3);
+            Graph.scene().add(meshf4);
+            Graph.scene().add(meshf5);
+            Graph.scene().add(meshf6);
+            Graph.scene().add(meshf7);
+            Graph.scene().add(meshf8);
+            Graph.scene().add(meshf9);
+            Graph.scene().add(meshf10);
+            Graph.scene().add(meshf11);
+            Graph.scene().add(meshf12);
+            Graph.scene().add(meshf13);
+            Graph.scene().add(meshf14);
+            Graph.scene().add(meshf15);
+            Graph.scene().add(meshf16);
+            Graph.scene().add(meshf17);
+            Graph.scene().add(meshf18);
+            Graph.scene().add(meshf19);
+            Graph.scene().add(meshf20);
+
+        //カメラアングルのローテーション
+        let angle = 0;
+        //リンクの長さ
+        const linkForce = Graph
+            .d3Force('link')
+            .distance(700)
+            .strength(0.0004);
+
+        //レスポンシブ
+        elementResizeDetectorMaker().listenTo(
+            document.getElementById('3d-graph'),
+            el => Graph.width(el.offsetWidth)
+        );
+
+        function updateHighlight() {
+            // trigger update of highlighted objects in scene
+            Graph
+                .nodeColor(Graph.nodeColor())
+                .linkWidth(Graph.linkWidth())
+                .linkDirectionalParticles(Graph.linkDirectionalParticles());
+        }
+
+        // client-side
+        var socket = io.connect();  // ソケットに接続
+        socket.on("server_to_client", function (data) {
+            appendMsg(data.value);
+        });
+
+        function appendMsg(text) {
+            console.log(text);
+            const multiple = 3000;
+            const wristX = 400;
+            const wristY = 400;
+            const wristZ = 400;
+
+            meshf0.position.set(text.f0[0] * multiple + wristX, text.f0[1] * multiple + wristY, text.f0[2] * multiple + wristZ);
+            meshf1.position.set(text.f1[0] * multiple + wristX, text.f1[1] * multiple + wristY, text.f1[2] * multiple + wristZ);
+            meshf2.position.set(text.f2[0] * multiple + wristX, text.f2[1] * multiple + wristY, text.f2[2] * multiple + wristZ);
+            meshf3.position.set(text.f3[0] * multiple + wristX, text.f3[1] * multiple + wristY, text.f3[2] * multiple + wristZ);
+            meshf4.position.set(text.f4[0] * multiple + wristX, text.f4[1] * multiple + wristY, text.f4[2] * multiple + wristZ);
+            meshf5.position.set(text.f5[0] * multiple + wristX, text.f5[1] * multiple + wristY, text.f5[2] * multiple + wristZ);
+            meshf6.position.set(text.f6[0] * multiple + wristX, text.f6[1] * multiple + wristY, text.f6[2] * multiple + wristZ);
+            meshf7.position.set(text.f7[0] * multiple + wristX, text.f7[1] * multiple + wristY, text.f7[2] * multiple + wristZ);
+            meshf8.position.set(text.f8[0] * multiple + wristX, text.f8[1] * multiple + wristY, text.f8[2] * multiple + wristZ);
+            meshf9.position.set(text.f9[0] * multiple + wristX, text.f9[1] * multiple + wristY, text.f9[2] * multiple + wristZ);
+            meshf10.position.set(text.f10[0] * multiple + wristX, text.f10[1] * multiple + wristY, text.f10[2] * multiple + wristZ);
+            meshf11.position.set(text.f11[0] * multiple + wristX, text.f11[1] * multiple + wristY, text.f11[2] * multiple + wristZ);
+            meshf12.position.set(text.f12[0] * multiple + wristX, text.f12[1] * multiple + wristY, text.f12[2] * multiple + wristZ);
+            meshf13.position.set(text.f13[0] * multiple + wristX, text.f13[1] * multiple + wristY, text.f13[2] * multiple + wristZ);
+            meshf14.position.set(text.f14[0] * multiple + wristX, text.f14[1] * multiple + wristY, text.f14[2] * multiple + wristZ);
+            meshf15.position.set(text.f15[0] * multiple + wristX, text.f15[1] * multiple + wristY, text.f15[2] * multiple + wristZ);
+            meshf16.position.set(text.f16[0] * multiple + wristX, text.f16[1] * multiple + wristY, text.f16[2] * multiple + wristZ);
+            meshf17.position.set(text.f17[0] * multiple + wristX, text.f17[1] * multiple + wristY, text.f17[2] * multiple + wristZ);
+            meshf18.position.set(text.f18[0] * multiple + wristX, text.f18[1] * multiple + wristY, text.f18[2] * multiple + wristZ);
+            meshf19.position.set(text.f19[0] * multiple + wristX, text.f19[1] * multiple + wristY, text.f19[2] * multiple + wristZ);
+            meshf20.position.set(text.f20[0] * multiple + wristX, text.f20[1] * multiple + wristY, text.f20[2] * multiple + wristZ);
+        }
+    </script>
+</body>

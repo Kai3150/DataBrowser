@@ -1,0 +1,163 @@
+<head>
+    <style>
+        body {
+            margin: 0;
+        }
+
+    </style>
+    <script src="https://unpkg.com/three@0.143.0/build/three.js"></script>
+    <script src="https://unpkg.com/3d-force-graph@1.70.10/dist/3d-force-graph.min.js"></script>
+    <script src="https://cdn.socket.io/4.5.0/socket.io.min.js" integrity="sha384-7EyYLQZgWBi67fBtVxw60/OWl1kjsfrPFcaU0pp0nAh+i8FD068QogUvg85Ewy1k" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+</head>
+
+<body>
+    <div id="3d-graph"></div>
+
+    <script>
+        const graph = ForceGraph3D()
+        (document.getElementById('3d-graph'))
+        // const geometry = new THREE.BoxGeometry(10, 10, 10, 1);
+        // const material = new THREE.MeshBasicMaterial({ color: 0xFFFFFF });
+        // const meshf0 = new THREE.Mesh(geometry, material);
+        // const meshf4 = new THREE.Mesh(geometry, material);
+        // const meshf8 = new THREE.Mesh(geometry, material);
+        // const meshf12 = new THREE.Mesh(geometry, material);
+        // const meshf16 = new THREE.Mesh(geometry, material);
+        // const meshf20 = new THREE.Mesh(geometry, material);
+        // graph.scene().add(meshf0);
+        // graph.scene().add(meshf4);
+        // graph.scene().add(meshf8);
+        // graph.scene().add(meshf12);
+        // graph.scene().add(meshf16);
+        // graph.scene().add(meshf20);
+
+        // const sam = [meshf0, meshf4]
+        // const index = [meshf0, meshf8]
+        // const middle = [meshf0, meshf12]
+        // const ring = [meshf0, meshf16]
+        // const pinky = [meshf0, meshf20]
+
+        // const geometrySam = new THREE.BufferGeometry().setFromPoints(sam);
+        // const geometryIndex = new THREE.BufferGeometry().setFromPoints(index);
+        // const geometryMiddle = new THREE.BufferGeometry().setFromPoints(middle);
+        // const geometryRing = new THREE.BufferGeometry().setFromPoints(ring);
+        // const geometryPinky = new THREE.BufferGeometry().setFromPoints(pinky);
+
+        // const lineSam = new THREE.Line(geometrySam, material);
+        // const lineIndex = new THREE.Line(geometryIndex, material);
+        // const lineMiddle = new THREE.Line(geometryMiddle, material);
+        // const lineRing = new THREE.Line(geometryRing, material);
+        // const linePinky = new THREE.Line(geometryPinky, material);
+        // graph.scene().add(lineSam);
+        // graph.scene().add(lineIndex);
+        // graph.scene().add(lineMiddle);
+        // graph.scene().add(lineRing);
+        // graph.scene().add(linePinky);
+
+        const planeGeometry = new THREE.PlaneGeometry(1000, 1000, 1, 1);
+        const planeMaterial = new THREE.MeshLambertMaterial({color: 0xFF0000, side: THREE.DoubleSide});
+        const mesh = new THREE.Mesh(planeGeometry, planeMaterial);
+        mesh.position.set(-100, -200, -100);
+        mesh.rotation.set(0.5 * Math.PI, 0, 0);
+
+        graph.scene().add(mesh);
+
+        // client-side
+        var socket = io.connect();  // ソケットに接続
+
+        socket.on("server_to_client", function (data) {
+            appendMsg(data.value);
+        });
+
+        const multiple = 1000;
+        const Graph = ForceGraph3D()
+            (document.getElementById('3d-graph'))
+            .graphData({
+                // nodes: [
+                //     { id: "left_wrist", x: text[0].x, y: text[0].y, z: text[0].z},
+                //     { id: "left_sum", x: text[1].x, y: text[1].y, z: text[1].z },
+                //     { id: "left_index", x: text[2].x, y: text[2].y, z: text[2].z },
+                //     { id: "left_middle", x: text[3].x, y: text[3].y, z: text[3].z },
+                //     { id: "left_ring", x: text[4].x, y: text[4].y, z: text[4].z },
+                //     { id: "left_pinky", x: text[5].x, y: text[5].y, z: text[5].z }
+                // ],
+                // links: [
+                //     { source: "left_wrist", target: "left_sum" },
+                //     { source: "left_wrist", target: "left_index" },
+                //     { source: "left_wrist", target: "left_middle" },
+                //     { source: "left_wrist", target: "left_ring" },
+                //     { source: "left_wrist", target: "left_pinky" }
+                // ]
+                nodes: [
+                    { id: 'f0', x: text.f0[0] * multiple, y: text.f0[1] * multiple, z: text.f0[2] * multiple },
+                    { id: 'f1', x: text.f1[0] * multiple, y: text.f1[1] * multiple, z: text.f1[2] * multiple },
+                    { id: 'f2', x: text.f2[0] * multiple, y: text.f2[1] * multiple, z: text.f2[2] * multiple },
+                    { id: 'f3', x: text.f3[0] * multiple, y: text.f3[1] * multiple, z: text.f3[2] * multiple },
+                    { id: 'f4', x: text.f4[0] * multiple, y: text.f4[1] * multiple, z: text.f4[2] * multiple },
+                    { id: 'f5', x: text.f5[0] * multiple, y: text.f5[1] * multiple, z: text.f5[2] * multiple },
+                    { id: 'f6', x: text.f6[0] * multiple, y: text.f6[1] * multiple, z: text.f6[2] * multiple },
+                    { id: 'f7', x: text.f7[0] * multiple, y: text.f7[1] * multiple, z: text.f7[2] * multiple },
+                    { id: 'f8', x: text.f8[0] * multiple, y: text.f8[1] * multiple, z: text.f8[2] * multiple },
+                    { id: 'f9', x: text.f9[0] * multiple, y: text.f9[1] * multiple, z: text.f9[2] * multiple },
+                    { id: 'f10', x: text.f10[0] * multiple, y: text.f10[1] * multiple, z: text.f10[2] * multiple },
+                    { id: 'f11', x: text.f11[0] * multiple, y: text.f11[1] * multiple, z: text.f11[2] * multiple },
+                    { id: 'f12', x: text.f12[0] * multiple, y: text.f12[1] * multiple, z: text.f12[2] * multiple },
+                    { id: 'f13', x: text.f13[0] * multiple, y: text.f13[1] * multiple, z: text.f13[2] * multiple },
+                    { id: 'f14', x: text.f14[0] * multiple, y: text.f14[1] * multiple, z: text.f14[2] * multiple },
+                    { id: 'f15', x: text.f15[0] * multiple, y: text.f15[1] * multiple, z: text.f15[2] * multiple },
+                    { id: 'f16', x: text.f16[0] * multiple, y: text.f16[1] * multiple, z: text.f16[2] * multiple },
+                    { id: 'f17', x: text.f17[0] * multiple, y: text.f17[1] * multiple, z: text.f17[2] * multiple },
+                    { id: 'f18', x: text.f18[0] * multiple, y: text.f18[1] * multiple, z: text.f18[2] * multiple },
+                    { id: 'f19', x: text.f19[0] * multiple, y: text.f19[1] * multiple, z: text.f19[2] * multiple },
+                    { id: 'f20', x: text.f20[0] * multiple, y: text.f20[1] * multiple, z: text.f20[2] * multiple },
+                ],
+                links: [
+                    { source: "f0", target: "f1" },
+                    { source: "f1", target: "f2" },
+                    { source: "f2", target: "f3" },
+                    { source: "f3", target: "f4" },
+                    { source: "f0", target: "f5" },
+                    { source: "f5", target: "f6" },
+                    { source: "f6", target: "f7" },
+                    { source: "f7", target: "f8" },
+                    { source: "f0", target: "f9" },
+                    { source: "f9", target: "f10" },
+                    { source: "f10", target: "f11" },
+                    { source: "f11", target: "f12" },
+                    { source: "f0", target: "f13" },
+                    { source: "f13", target: "f14" },
+                    { source: "f14", target: "f15" },
+                    { source: "f15", target: "f16" },
+                    { source: "f0", target: "f17" },
+                    { source: "f17", target: "f18" },
+                    { source: "f18", target: "f19" },
+                    { source: "f19", target: "f20" },
+                    { source: "f1", target: "f5" },
+                    { source: "f9", target: "f13" },
+                ]
+            })
+            .nodeThreeObject(node => {
+                const geometry = new THREE.BoxGeometry(node.x, node.y, node.z, 1)
+                const material = new THREE.MeshBasicMaterial({ color: 0xFFFFFF });// make sprite background transparent
+                const mesh = new THREE.Mesh(geometry, material);
+                return mesh;
+            });
+        function appendMsg(text) {
+            console.log(text); // $("id") は document.getElementById("id") と同じ
+            const multiple = 1000;
+
+            meshf0.position.set(text.f0[0] * multiple, text.f0[1] * multiple, text.f0[2] * multiple);
+            meshf1.position.set(text.f1[0] * multiple, text.f1[1] * multiple, text.f1[2] * multiple);
+            meshf2.position.set(text.f2[0] * multiple, text.f2[1] * multiple, text.f2[2] * multiple);
+            meshf3.position.set(text.f3[0] * multiple, text.f3[1] * multiple, text.f3[2] * multiple);
+            meshf4.position.set(text.f4[0] * multiple, text.f4[1] * multiple, text.f4[2] * multiple);
+            meshf8.position.set(text.f8[0] * multiple, text.f8[1] * multiple, text.f8[2] * multiple);
+            meshf12.position.set(text.f12[0] * multiple, text.f12[1] * multiple, text.f12[2] * multiple);
+            meshf16.position.set(text.f16[0] * multiple, text.f16[1] * multiple, text.f16[2] * multiple);
+            meshf20.position.set(text.f20[0] * multiple, text.f20[1] * multiple, text.f20[2] * multiple);
+        }
+
+
+    </script>
+</body>
